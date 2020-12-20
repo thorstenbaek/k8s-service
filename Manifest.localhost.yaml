@@ -51,7 +51,7 @@ spec:
         - name: k8s-service
           securityContext:
             {}
-          image: "thorstenbaek/k8s-service:v1.0.0.0"
+          image: "thorstenbaek/k8s-service:v1.0.0.1"
           imagePullPolicy: Always
           ports:
             - name: http
