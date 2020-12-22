@@ -1,8 +1,8 @@
-const getCoreApi = require('../k8s.js').getCoreApi;
+const getK8s = require('../k8s.js').getK8s;
 
 exports.listNamespace = async (req, res) => {
     let namespaces = [];
-    var response = await getCoreApi().listNamespace();
+    var response = await getK8s().api.v1.namespaces.get();    
 
     response.body.items.forEach(item => {
         namespaces.push(item.metadata.uid + " " + item.metadata.name);    
@@ -22,7 +22,7 @@ exports.createNamespace = async (req, res) => {
     };
 
     try {
-        var response = await getCoreApi().createNamespace(namespace);
+        var response = await getK8s().api.v1.namespaces.post({body: namespace});
         
         console.log('Created namespace');
         console.log(response);          
@@ -36,7 +36,7 @@ exports.createNamespace = async (req, res) => {
 exports.getNamespace = async (req, res) => {
     var name = req.params.name;
     try {
-        var namespace = await getCoreApi().readNamespace(name);
+        var namespace = await getK8s().api.v1.namespaces(name).get();
         res.status(302).send(namespace);
         
     } catch (error) {
@@ -52,7 +52,7 @@ exports.updateNamespace = (req, res) => {
 exports.deleteNamespace = async (req, res) => {    
     var name = req.params.name;
     try {
-        await getCoreApi().deleteNamespace(name, {});    
+        await getK8s().api.v1.namespaces(name).delete();    
         res.status(202).json({message: `Successfully deleted namespace ${name}`});           
 
     } catch (error) {

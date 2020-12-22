@@ -1,12 +1,16 @@
 const express = require('express');
-const namespaceRouter = require('./routes/namespace.routes');
+var bodyParser = require('body-parser');
+const namespaceRoutes = require('./routes/namespace.routes');
+const releaseRoutes = require('./routes/release.routes');
 const initK8s = require('./k8s.js').initK8s;
-const getK8s = require('./k8s.js').getK8s;
+const getCoreApi = require('./k8s.js').getCoreApi;
 
-const port = 80;
+const port = 8001;
 const app = express();
 
-app.use('/namespace', namespaceRouter);
+app.use(bodyParser.text());
+app.use('/namespace', namespaceRoutes);
+app.use('/release', releaseRoutes);
 
 initK8s(err => {
     if (err) {
@@ -19,17 +23,5 @@ initK8s(err => {
 });
 
 app.get("/", (req, res) => {
-    res.send(getK8s()._basePath);
-});
-
-app.get("/namespaces", (req, res) => {
-    
-    let namespaces = [];
-    getK8s().listNamespace().then((namespace) => {
-        namespace.body.items.forEach(item => {
-            namespaces.push(item.metadata.uid + " " + item.metadata.name);    
-        });    
-
-        res.send(namespaces);
-    });    
+    res.send(getCoreApi()._basePath);
 });

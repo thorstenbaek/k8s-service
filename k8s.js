@@ -1,35 +1,52 @@
 const assert = require("assert");
 const kubernetes = require('@kubernetes/client-node');
 
-let _k8s;
+let _core_api;
+let _app_api;
+let _networking_api;
 
 function initK8s(callback) {
-    if (_k8s) {
+    if (_core_api) {
         console.warn("Trying to init k8s again!");
-        return callback(null, _k8s);
+        return callback(null);
     }
 
     const kc = new kubernetes.KubeConfig();
     kc.loadFromDefault();
 
     try {           
-        _k8s = kc.makeApiClient(kubernetes.CoreV1Api);
-        console.log('K8S Api connected to: ', _k8s._basePath);
-    
-        return callback(null, _k8s);    
+        _core_api = kc.makeApiClient(kubernetes.CoreV1Api);
+        _app_api = kc.makeApiClient(kubernetes.AppsV1Api);
+        _networking_api = kc.makeApiClient(kubernetes.NetworkingV1beta1Api);
+        
+        console.log('K8S Api connected to: ', _core_api._basePath);
+        return callback(null);    
+
     } catch (error) {
         return callback(error);        
-    }
-    
+    }    
 }
 
-function getK8s()
-{
-    assert.ok(_k8s, "K8s has not been initialized. Please called init first.");
-    return _k8s;   
+function getCoreApi() {
+    assert.ok(_core_api, "K8s has not been initialized. Please called init first.");
+    return _core_api;   
 }
+
+function getAppApi() {
+    assert.ok(_app_api, "K8s has not been initialized. Please called init first.");
+    return _app_api;   
+}
+
+function getNetworkingApi() {
+    assert.ok(_networking_api, "K8s has not been initialized. Please called init first.");
+    return _networking_api;   
+}
+
+
 
 module.exports = {
-    getK8s,
+    getCoreApi,
+    getAppApi,
+    getNetworkingApi,
     initK8s
 };
