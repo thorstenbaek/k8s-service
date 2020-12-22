@@ -1,48 +1,34 @@
 const getCoreApi = require('../k8s.js').getCoreApi;
+const model = require('../models/namespace.model');
 
 exports.listNamespace = async (req, res) => {
-    let namespaces = [];
-    var response = await getCoreApi().listNamespace();
-
-    response.body.items.forEach(item => {
-        namespaces.push(item.metadata.uid + " " + item.metadata.name);    
-    });    
-
-    res.send(namespaces);    
+    res.send(await model.listNamespace());    
 }
 
 exports.createNamespace = async (req, res) => {    
     var name = req.params.name;
-    console.log('Creating namespace' + name);
+    
+    var response = await model.createNamespace(name);
 
-    var namespace = {
-        metadata: {
-            name: name,
-        },
-    };
-
-    try {
-        var response = await getCoreApi().createNamespace(namespace);
-        
-        console.log('Created namespace');
-        console.log(response);          
-        res.status(201).send(response);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send(error);
+    if (response.error)
+    {
+        res.status(500).send(response.error);
     }
+    
+    res.status(201).send(response.body);
 }
 
 exports.getNamespace = async (req, res) => {
     var name = req.params.name;
-    try {
-        var namespace = await getCoreApi().readNamespace(name);
-        res.status(302).send(namespace);
-        
-    } catch (error) {
-        console.error(error);
-        res.status(404).send(error);            
-    }        
+    
+    var response = await model.getNamespace(name);
+
+    if (response.error)
+    {
+        res.status(404).send(response.error);
+    }
+    
+    res.status(302).send(response.body);
 }
 
 exports.updateNamespace = (req, res) => {
@@ -51,12 +37,15 @@ exports.updateNamespace = (req, res) => {
 
 exports.deleteNamespace = async (req, res) => {    
     var name = req.params.name;
-    try {
-        await getCoreApi().deleteNamespace(name, {});    
-        res.status(202).json({message: `Successfully deleted namespace ${name}`});           
+    
+    var response = await model.deleteNamespace(name);
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }            
+    if (response.error)
+    {
+        res.status(500).send(response.error);
+    }
+    else
+    {
+        res.status(202).send(response.message);           
+    }
 }
