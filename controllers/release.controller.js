@@ -12,4 +12,4 @@ exports.createRelease = async (req, res) => {
 
 exports.getRelease = async (req, res) => {
     res.send({message: "not implemented"});
-}
+}   
