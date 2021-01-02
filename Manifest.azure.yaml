@@ -51,19 +51,22 @@ spec:
         - name: k8s-service
           securityContext:
             {}
-          image: "thorstenbaek/k8s-service:v1.0.0.1"
+          image: "thorstenbaek/k8s-service:v1.0.0.5"
           imagePullPolicy: Always
+          env:
+            - name: TARGET_DOMAIN
+              value: api.dips.no
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
           # livenessProbe:
           #   httpGet:
-          #     path: /
+          #     path: /health
           #     port: http
           # readinessProbe:
           #   httpGet:
-          #     path: /
+          #     path: /health
           #     port: http
           resources:
             {}
@@ -98,22 +101,22 @@ spec:
               servicePort: 80
 ---
 # Source: Experimental/charts/k8s-service/templates/tests/test-connection.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: "experimental-k8s-service-test-connection"
-  labels:
-    helm.sh/chart: k8s-service-0.1.0
-    app.kubernetes.io/name: k8s-service
-    app.kubernetes.io/instance: experimental
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    "helm.sh/hook": test
-spec:
-  containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['experimental-k8s-service:80']
-  restartPolicy: Never
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: "experimental-k8s-service-test-connection"
+#   labels:
+#     helm.sh/chart: k8s-service-0.1.0
+#     app.kubernetes.io/name: k8s-service
+#     app.kubernetes.io/instance: experimental
+#     app.kubernetes.io/version: "1.16.0"
+#     app.kubernetes.io/managed-by: Helm
+#   annotations:
+#     "helm.sh/hook": test
+# spec:
+#   containers:
+#     - name: wget
+#       image: busybox
+#       command: ['wget']
+#       args: ['experimental-k8s-service:80']
+#   restartPolicy: Never

@@ -110,8 +110,10 @@ describe('Environment Model Tests', () => {
                 .once()
                 .withArgs('test', manifest)
                 .resolves(Promise.resolve('release'));
+
+            process.env.TARGET_DOMAIN = 'test.no';
         
-            await model.createEnvironment('test', 'test.no');
+            await model.createEnvironment('test');
             
             namespaceMock.verify();
             namespaceMock.restore();

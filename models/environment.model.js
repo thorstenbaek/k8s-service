@@ -14,27 +14,54 @@ getManifest = async (name, domain) => {
 }
 
 
-exports.createEnvironment = async (name, domain) => {
+exports.createEnvironment = async (name) => {
     try {
-        console.log(`Creating environment named '${name}' at domain '${domain}'`);
+        const targetDomain = process.env.TARGET_DOMAIN
+        
+        console.log(`Creating environment named '${name}' at domain '${targetDomain}'`);
 
-        var manifest = await getManifest(name, domain);
+        var manifest = await getManifest(name, targetDomain);
         
         await namespace.createNamespace(name);
         await release.createRelease(name, manifest);
     
-        console.log(`Environment - ${name} was successfully created`);    
-    } catch (error) {
-        
-        console.log(`Create failed`);
-    }
-    
+        const message = `Environment '${name}' was successfully created at '${targetDomain}'`;
+        console.log(message);    
+        return {
+            status: 200,
+            message: message
+        };
+    } catch (error) {                
+        const message = `Create environment '${name}' failed due to ${error}`;
+        console.error(message);
+        return {
+            status: 500,
+            message: message
+        }
+    }    
 }
 
 exports.deleteEnvironment = async (name) => {
-    console.log(`Deleting environment - ${name}`);
-    
-    await namespace.deleteNamespace(name);
 
-    console.log(`Environment - ${name} successfully deleted`);
+    console.log(`Deleting environment - ${name}`);    
+    
+    var result = await namespace.deleteNamespace(name);
+    
+    if (!result.error)
+    {
+        const message = `Environment - ${name} successfully deleted`;
+        console.log(message);
+
+        return {
+            status: 200,
+            message: message
+        };
+    }
+    else
+    {
+        return {
+            status: 500,
+            message: result.error
+        };
+    }
 }

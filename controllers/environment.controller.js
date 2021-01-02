@@ -2,11 +2,13 @@ const model = require('../models/environment.model');
 
 exports.createEnvironment = async (req, res) => {
     var name = req.params.name;
-    var domain = req.params.domain;
-    res.send(await model.createEnvironment(name, domain));    
+    
+    const result = await model.createEnvironment(name);
+    res.status(result.status).send(result.message);    
 }
 
 exports.deleteEnvironment = async (req, res) => {
     var name = req.params.name;
-    res.send(await model.deleteEnvironment(name));    
+    const result = await model.deleteEnvironment(name);
+    res.status(result.status).send(result.message);    
 }   

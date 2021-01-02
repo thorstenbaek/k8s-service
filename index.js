@@ -3,16 +3,22 @@ var bodyParser = require('body-parser');
 const namespaceRoutes = require('./routes/namespace.routes');
 const releaseRoutes = require('./routes/release.routes');
 const environmentRoutes = require('./routes/environment.routes');
+const healthRoutes = require('./routes/health.routes');
 const initK8s = require('./k8s.js').initK8s;
 const getCoreApi = require('./k8s.js').getCoreApi;
-
-const port = 8001;
 const app = express();
+
+var port = 8001;
+if (process.env.IN_CONTAINER)
+{
+    port = 80;
+}
 
 app.use(bodyParser.text());
 app.use('/namespace', namespaceRoutes);
 app.use('/release', releaseRoutes);
 app.use('/environment', environmentRoutes);
+app.use('/health', healthRoutes);
 
 initK8s(err => {
     if (err) {
