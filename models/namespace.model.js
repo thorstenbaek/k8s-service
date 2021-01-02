@@ -12,7 +12,7 @@ exports.listNamespace = async() => {
 }
 
 exports.createNamespace = async (name) => {
-    console.log('Creating namespace' + name);
+    console.log('Creating namespace ' + name);
 
     var namespace = {
         metadata: {
