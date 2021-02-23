@@ -4,7 +4,7 @@ const release = require('./release.model');
 
 getManifest = async (name, domain) => {        
     
-    const url = 'https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandbox.release.yaml'
+    const url = 'https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandboxWithDb.release.yaml'
     const response = await fetch(url);
     var manifest = await response.text();
 
