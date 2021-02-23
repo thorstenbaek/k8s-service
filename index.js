@@ -31,5 +31,9 @@ initK8s(err => {
 });
 
 app.get("/", (req, res) => {
-    res.send(getCoreApi()._basePath);
+    const statusText = `
+        <p>Kube8s cluster: ${getCoreApi()._basePath}</p>
+        <p>ManifestTemplateURL: ${process.env.ManifestTemplateURL}</p>
+        `;
+    res.send(statusText);
 });

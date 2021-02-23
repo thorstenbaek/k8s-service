@@ -23,6 +23,7 @@ exports.createRelease = async (namespace, manifest) => {
         
         let core = k8s.getCoreApi();
         let app = k8s.getAppApi();
+        let batch = k8s.getBatchApi();
         let networking = k8s.getNetworkingApi();
 
         try {
@@ -53,6 +54,22 @@ exports.createRelease = async (namespace, manifest) => {
                     deployment = await app.patchNamespacedDeployment(spec.metadata.name, namespace, spec);
                     created.push(deployment.body);
                 }
+                else if (spec.kind == "StatefulSet")
+                {
+                    var statefulSet = await app.readNamespacedStatefulSet(spec.metadata.name, namespace);
+                    console.log("Found statefulSet: " + statefulSet.metadata.name);
+    
+                    statefulSet = await app.patchNamespacedStatefulSet(spec.metadata.name, namespace, spec);
+                    created.push(statefulSet.body);
+                }
+                else if (spec.kind == "Job")
+                {
+                    var job = await batch.readNamespacedJob(spec.metadata.name, namespace);
+                    console.log("Found job: " + job.metadata.name);
+    
+                    job = await batch.patchNamespacedJob(spec.metadata.name, namespace, spec);
+                    created.push(job.body);
+                }
                 else if (spec.kind == "Service")
                 {
                     var service = await core.readNamespacedService(spec.metadata.name, namespace);    
@@ -75,6 +92,16 @@ exports.createRelease = async (namespace, manifest) => {
                 {
                     const deployment = await app.createNamespacedDeployment(namespace, spec);
                     created.push(deployment.body);
+                }
+                else if (spec.kind == "StatefulSet")
+                {
+                    const statefulSet = await app.createNamespacedStatefulSet(namespace, spec);
+                    created.push(statefulSet.body);
+                }
+                else if (spec.kind == "Job")
+                {
+                    const job = await batch.createNamespacedJob(namespace, spec);
+                    created.push(job.body);
                 }
                 else if (spec.kind == "Service")
                 {
