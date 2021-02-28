@@ -6,6 +6,7 @@ getManifest = async (name, domain) => {
     
     const url = process.env.ManifestTemplateURL;    
     console.log("Loading manifest from:" + url);
+    
     const response = await fetch(url);
     var manifest = await response.text();
 
