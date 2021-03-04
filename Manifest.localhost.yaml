@@ -51,23 +51,27 @@ spec:
         - name: k8s-service
           securityContext:
             {}
-          image: "thorstenbaek/k8s-service:v1.0.0.5"
+          image: "thorstenbaek/k8s-service:v1.0.0.10"
           imagePullPolicy: Always
           env:
             - name: TARGET_DOMAIN
               value: localhost
+            - name: IsolatedManifestTemplateURL
+              value: https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandboxWithDb.release.yaml
+            - name: ManifestTemplateURL
+              value: https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandbox.release.yaml
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: http
           resources:
             {}
 ---

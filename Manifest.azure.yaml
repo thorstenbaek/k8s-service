@@ -51,13 +51,15 @@ spec:
         - name: k8s-service
           securityContext:
             {}
-          image: "thorstenbaek/k8s-service:v1.0.0.9"
+          image: "thorstenbaek/k8s-service:v1.0.0.10"
           imagePullPolicy: Always
           env:
             - name: TARGET_DOMAIN
               value: api.dips.no
-            - name: ManifestTemplateURL
+            - name: IsolatedManifestTemplateURL
               value: https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandboxWithDb.release.yaml
+            - name: ManifestTemplateURL
+              value: https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandbox.release.yaml
           ports:
             - name: http
               containerPort: 80
