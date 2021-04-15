@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "set TARGET_DOMAIN=localhost&&set ManifestTemplateURL=https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandbox.release.yaml&&set IsolatedManifestTemplateURL=https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandboxWithDb.release.yaml&&nodemon index.js",
     "test": "mocha"
   },
   "author": "",

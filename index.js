@@ -34,6 +34,8 @@ app.get("/", (req, res) => {
     const statusText = `
         <p>Kube8s cluster: ${getCoreApi()._basePath}</p>
         <p>ManifestTemplateURL: ${process.env.ManifestTemplateURL}</p>
+        <p>Isolated environment ManifestTemplateURL: ${process.env.IsolatedManifestTemplateURL}</p>
+        <p>Target domain: ${process.env.TARGET_DOMAIN}</p>
         `;
     res.send(statusText);
 });

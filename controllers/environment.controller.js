@@ -9,7 +9,6 @@ exports.createEnvironment = async (req, res) => {
 
 exports.createIsolatedEnvironment = async (req, res) => {
     var name = req.params.name;
-    
     const result = await model.createEnvironment(name, true);
     res.status(result.status).send(result.message);    
 }
