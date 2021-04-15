@@ -19,5 +19,6 @@ EXPOSE 80
 ENV TZ=Europe/Oslo
 ENV IN_CONTAINER=1
 ENV ManifestTemplateURL=https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandbox.release.yaml
+ENV TARGET_DOMAIN=localhost
 
 CMD [ "node", "index.js" ]
