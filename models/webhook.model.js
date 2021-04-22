@@ -1,4 +1,3 @@
-const { HttpError } = require('@kubernetes/client-node');
 const release = require('./release.model');
 const environment = require('./environment.model');
 const manifestLoader = require("./manifestLoader");

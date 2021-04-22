@@ -29,7 +29,6 @@ app.use('/environment', environmentRoutes);
 app.use('/health', healthRoutes);
 app.use('/webhook', webhookRoutes);
 
-
 initK8s(err => {
     if (err) {
         throw err;
