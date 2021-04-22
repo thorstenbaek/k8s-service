@@ -1,12 +1,12 @@
-const assert = require("assert");
-const kubernetes = require('@kubernetes/client-node');
+import assert from "assert";
+import kubernetes from "@kubernetes/client-node";
 
 let _core_api;
 let _app_api;
 let _batch_api;
 let _networking_api;
 
-function initK8s(callback) {
+export function initK8s(callback) {
     if (_core_api) {
         console.warn("Trying to init k8s again!");
         return callback(null);
@@ -29,32 +29,22 @@ function initK8s(callback) {
     }    
 }
 
-function getCoreApi() {
+export function getCoreApi() {
     assert.ok(_core_api, "K8s has not been initialized. Please call init first.");
     return _core_api;   
 }
 
-function getAppApi() {
+export function getAppApi() {
     assert.ok(_app_api, "K8s has not been initialized. Please call init first.");
     return _app_api;   
 }
 
-function getBatchApi() {
+export function getBatchApi() {
     assert.ok(_batch_api, "K8s has not been initialized. Please call init first.");
     return _batch_api;   
 }
 
-function getNetworkingApi() {
+export function getNetworkingApi() {
     assert.ok(_networking_api, "K8s has not been initialized. Please call init first.");
     return _networking_api;   
 }
-
-
-
-module.exports = {
-    getCoreApi,
-    getAppApi,
-    getBatchApi,
-    getNetworkingApi,
-    initK8s
-};

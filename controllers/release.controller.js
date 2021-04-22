@@ -1,15 +1,15 @@
-const model = require('../models/release.model');
+import {listRelease as modelListRelease, applyRelease as modelApplyRelease} from "../models/release.model.js";
 
-exports.listRelease = async (req, res) => {
+export const listRelease = async (req, res) => {
     var namespace = req.params.namespace;
-    res.send(await model.listRelease(namespace));    
+    res.send(await modelListRelease(namespace));    
 }
 
-exports.applyRelease = async (req, res) => {
+export const applyRelease = async (req, res) => {
     var namespace = req.params.namespace;
-    res.send(await model.applyRelease(namespace, req.body));    
+    res.send(await modelApplyRelease(namespace, req.body));    
 }
 
-exports.getRelease = async (req, res) => {
+export const getRelease = async (req, res) => {
     res.send({message: "not implemented"});
 }   

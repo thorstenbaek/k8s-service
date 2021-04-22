@@ -1,8 +1,8 @@
-const k8s = require('../k8s.js');
+import {getCoreApi} from "../k8s.js";
 
-exports.listNamespace = async() => {
+export const listNamespace = async() => {
     let result = [];
-    var namespaces = await k8s.getCoreApi().listNamespace();
+    var namespaces = await getCoreApi().listNamespace();
 
     namespaces.body.items.forEach(namespace => {
         result.push(namespace.metadata.uid + " " + namespace.metadata.name);    
@@ -11,7 +11,7 @@ exports.listNamespace = async() => {
     return result;
 }
 
-exports.createNamespace = async (name) => {
+export const createNamespace = async (name) => {
     console.log('Creating namespace ' + name);
 
     var namespace = {
@@ -21,7 +21,7 @@ exports.createNamespace = async (name) => {
     };
 
     try {
-        var createdNamespace = await k8s.getCoreApi().createNamespace(namespace);
+        var createdNamespace = await getCoreApi().createNamespace(namespace);
         
         console.log('Created namespace');
         console.log(createdNamespace);          
@@ -33,9 +33,9 @@ exports.createNamespace = async (name) => {
     }
 }
 
-exports.getNamespace = async (name) => {
+export const getNamespace = async (name) => {
     try {
-        var namespace = await k8s.getCoreApi().readNamespace(name);
+        var namespace = await getCoreApi().readNamespace(name);
         return {body: namespace};        
         
     } catch (error) {
@@ -44,9 +44,9 @@ exports.getNamespace = async (name) => {
     }   
 }
 
-exports.deleteNamespace = async (name) => {
+export const deleteNamespace = async (name) => {
     try {
-        await k8s.getCoreApi().deleteNamespace(name, {});    
+        await getCoreApi().deleteNamespace(name, {});    
         const message = `Successfully deleted namespace ${name}`;
         console.log(message);
         return {message: message};        

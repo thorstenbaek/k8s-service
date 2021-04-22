@@ -1,9 +1,9 @@
-const assert = require('assert');
-const sinon = require('sinon');
-const fetch = require('node-fetch');
-const model = require('../models/environment.model');
-const namespace = require('../models/namespace.model');
-const release = require('../models/release.model');
+import assert from "assert";
+import sinon from "sinon";
+import fetch from "node-fetch";
+import {createEnvironment} from "../models/environment.model.js";
+import {createNamespace} from "../models/namespace.model.js";
+import {applyRelease} from "../models/release.model.js";
 
 const manifestTemplate = `
     # Source: SandBox/charts/dips-fhir-service2/templates/deployment.yaml
@@ -99,13 +99,13 @@ describe('Environment Model Tests', () => {
             var responseObject = {"status":'200',text: () => { return textObject }};
             sinon.stub(fetch, 'Promise').resolves(Promise.resolve(responseObject));
             
-            var namespaceMock = sinon.mock(namespace);
+            var namespaceMock = sinon.mock(createNamespace);
             namespaceMock.expects('createNamespace')
                 .once()
                 .withArgs('test')            
                 .resolves(Promise.resolve('namespace'));
             
-            var releaseMock = sinon.mock(release);
+            var releaseMock = sinon.mock(applyRelease);
             releaseMock.expects('applyRelease')
                 .once()
                 .withArgs('test', manifest)
@@ -113,7 +113,7 @@ describe('Environment Model Tests', () => {
 
             process.env.TARGET_DOMAIN = 'test.no';
         
-            await model.createEnvironment('test');
+            await createEnvironment('test');
             
             namespaceMock.verify();
             namespaceMock.restore();

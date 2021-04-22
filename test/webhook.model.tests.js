@@ -1,8 +1,6 @@
-const assert = require('assert');
-const sinon = require('sinon');
-const fetch = require('node-fetch');
-const model = require('../models/webhook.model');
-const release = require('../models/release.model');
+import sinon from "sinon";
+import {create as modelCreate} from "../models/webhook.model.js";
+import {applyRelease} from "../models/release.model.js";
 
 const nonMasterBranchBody = `
 {
@@ -36,12 +34,12 @@ const masterBranchBody = `
 
 describe('Webhook Model Tests', () => {    
     it('create', async () => { 
-        var releaseMock = sinon.mock(release);
+        var releaseMock = sinon.mock(applyRelease);
             releaseMock.expects('applyRelease')
                 .once()
                 .withArgs('test', '')
                 .resolves(Promise.resolve('release'));        
 
-        await model.create(postedBody);
+        await modelCreate(postedBody);
     });    
 });

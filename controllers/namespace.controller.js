@@ -1,14 +1,14 @@
-const getCoreApi = require('../k8s.js').getCoreApi;
-const model = require('../models/namespace.model');
+import {getCoreApi} from "../k8s.js";
+import {listNamespace as modelListNamespace, createNamespace as modelCreateNamespace, getNamespace as modelGetNamespace, deleteNamespace as modelDeleteNamespace } from "../models/namespace.model.js";
 
-exports.listNamespace = async (req, res) => {
-    res.send(await model.listNamespace());    
+export const listNamespace = async (req, res) => {
+    res.send(await modelListNamespace());    
 }
 
-exports.createNamespace = async (req, res) => {    
+export const createNamespace = async (req, res) => {    
     var name = req.params.name;
     
-    var response = await model.createNamespace(name);
+    var response = await modelCreateNamespace(name);
 
     if (response.error)
     {
@@ -18,10 +18,10 @@ exports.createNamespace = async (req, res) => {
     res.status(201).send(response.body);
 }
 
-exports.getNamespace = async (req, res) => {
+export const getNamespace = async (req, res) => {
     var name = req.params.name;
     
-    var response = await model.getNamespace(name);
+    var response = await modelGetNamespace(name);
 
     if (response.error)
     {
@@ -31,14 +31,14 @@ exports.getNamespace = async (req, res) => {
     res.status(302).send(response.body);
 }
 
-exports.updateNamespace = (req, res) => {
+export const updateNamespace = (req, res) => {
     res.status(301).json({message: "Not implemented!"});    
 }
 
-exports.deleteNamespace = async (req, res) => {    
+export const deleteNamespace = async (req, res) => {    
     var name = req.params.name;
     
-    var response = await model.deleteNamespace(name);
+    var response = await modelDeleteNamespace(name);
 
     if (response.error)
     {

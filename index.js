@@ -1,12 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const namespaceRoutes = require('./routes/namespace.routes');
-const releaseRoutes = require('./routes/release.routes');
-const environmentRoutes = require('./routes/environment.routes');
-const healthRoutes = require('./routes/health.routes');
-const webhookRoutes = require('./routes/webhook.routes');
-const initK8s = require('./k8s.js').initK8s;
-const getCoreApi = require('./k8s.js').getCoreApi;
+import express from "express";
+import namespaceRoutes from "./routes/namespace.routes.js";
+import releaseRoutes from "./routes/release.routes.js";
+import environmentRoutes from "./routes/environment.routes.js";
+import healthRoutes from "./routes/health.routes.js";
+import webhookRoutes from "./routes/webhook.routes.js";
+import {initK8s, getCoreApi} from "./k8s.js";
+
+const  router = express.Router();
 
 var port = 8001;
 if (process.env.IN_CONTAINER)

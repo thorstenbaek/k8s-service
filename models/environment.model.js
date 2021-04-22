@@ -1,8 +1,8 @@
-const namespace = require('./namespace.model');
-const release = require('./release.model');
-const manifestLoader = require('./manifestLoader');
+import {createNamespace, deleteNamespace} from "./namespace.model.js";
+import {applyRelease} from "./release.model.js";
+import {loadManifest} from "./manifestLoader.js";
 
-exports.createEnvironment = async (name, isolated) => {
+export const createEnvironment = async (name, isolated) => {
     try {
         const targetDomain = process.env.TARGET_DOMAIN
         
@@ -18,10 +18,10 @@ exports.createEnvironment = async (name, isolated) => {
             url = process.env.ManifestTemplateURL;    
         }
 
-        var manifest = await manifestLoader.loadManifest(url, name, targetDomain);
+        var manifest = await loadManifest(url, name, targetDomain);
         
-        await namespace.createNamespace(name);
-        await release.applyRelease(name, manifest);
+        await createNamespace(name);
+        await applyRelease(name, manifest);
     
         const message = `Environment '${name}' was successfully created at '${targetDomain}'`;
         console.log(message);    
@@ -39,11 +39,11 @@ exports.createEnvironment = async (name, isolated) => {
     }    
 }
 
-exports.deleteEnvironment = async (name) => {
+export const deleteEnvironment = async (name) => {
 
     console.log(`Deleting environment - ${name}`);    
     
-    var result = await namespace.deleteNamespace(name);
+    var result = await deleteNamespace(name);
     
     if (!result.error)
     {

@@ -1,13 +1,13 @@
-const model = require('../models/webhook.model');
+import {create as modelCreate, delete_ as modelDelete, update as modelUpdate } from "../models/webhook.model.js";
 
-exports.webhookPosted = async (req, res) => {
+export const webhookPosted = async (req, res) => {
     var event = req.headers['x-github-event'];
     var body = req.body;
     
     if (event === 'create')
     {
         try {
-            var result = await model.create(body);    
+            var result = await modelCreate(body);    
             res.send(result);    
         } catch (error) {
             res.send(error).status(500);
@@ -16,7 +16,7 @@ exports.webhookPosted = async (req, res) => {
     else if (event === 'delete')
     {
         try {
-            var result = await model.delete(body);
+            var result = await modelDelete(body);
             res.send(result);        
         } catch (error) {
             res.send(error).status(500);
@@ -26,7 +26,7 @@ exports.webhookPosted = async (req, res) => {
     else if (event === 'push')
     {
         try {
-            var result = await model.update(body);
+            var result = await modelUpdate(body);
             res.send(result);        
         } catch (error) {
             res.send(error).status(500);

@@ -1,12 +1,12 @@
-const express = require('express');
+import express from "express";
+import {listNamespace, createNamespace, getNamespace, updateNamespace, deleteNamespace} from "../controllers/namespace.controller.js";
+
 const urlRoutes = express.Router();
 
-const controller = require('../controllers/namespace.controller');
+urlRoutes.get('/', listNamespace);
+urlRoutes.post('/:name', createNamespace);
+urlRoutes.get('/:name', getNamespace);
+urlRoutes.put('/:name', updateNamespace);
+urlRoutes.delete('/:name', deleteNamespace);
 
-urlRoutes.get('/', controller.listNamespace);
-urlRoutes.post('/:name', controller.createNamespace);
-urlRoutes.get('/:name', controller.getNamespace);
-urlRoutes.put('/:name', controller.updateNamespace);
-urlRoutes.delete('/:name', controller.deleteNamespace);
-
-module.exports = urlRoutes;
+export default urlRoutes;

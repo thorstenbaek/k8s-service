@@ -1,4 +1,5 @@
-const express = require('express');
+import express from "express";
+
 const urlRoutes = express.Router();
 
 urlRoutes.get('/', (req, res) => {
@@ -6,4 +7,4 @@ urlRoutes.get('/', (req, res) => {
     res.status(200).send('Health check ok');
 });
 
-module.exports = urlRoutes;
+export default urlRoutes;

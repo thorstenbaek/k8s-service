@@ -1,8 +1,8 @@
-const express = require('express');
+import express from "express";
+import {webhookPosted} from "../controllers/webhook.controller.js";
+
 const urlRoutes = express.Router();
 
-const controller = require('../controllers/webhook.controller');
+urlRoutes.post('/', webhookPosted);
 
-urlRoutes.post('/', controller.webhookPosted);
-
-module.exports = urlRoutes;
+export default urlRoutes;

@@ -1,8 +1,8 @@
-const release = require('./release.model');
-const environment = require('./environment.model');
-const manifestLoader = require("./manifestLoader");
+import {applyRelease} from "./release.model.js";
+import {deleteEnvironment} from "./environment.model.js";
+import {loadManifest} from "./manifestLoader.js";
 
-extractBranch = (body) => {
+const extractBranch = (body) => {
     var branch = body.ref.slice(11);        
     console.log(branch);
     if (branch !== 'master') {              
@@ -28,27 +28,27 @@ const getParameters = async (body, callback) => {
     }
 }
 
-exports.create = body => {   
+export const create = body => {   
     getParameters(body, async (branch, url) => {
         console.log(`Creating environment for branch - ${branch} - with manifest from ${url}`);                
 
-        var manifest = await manifestLoader.loadManifest(url, branch, process.env.TARGET_DOMAIN);                
-        release.applyRelease(branch, manifest);
+        var manifest = await loadManifest(url, branch, process.env.TARGET_DOMAIN);                
+        applyRelease(branch, manifest);
     });
 }
 
-exports.delete = async (body) => {
+export const delete_ = async (body) => {
     getParameters(body, (branch, url) => {
         console.log(`Deleting environment for branch - ${branch}`);                
-        environment.deleteEnvironment(branch);
+        deleteEnvironment(branch);
     });
 }
 
-exports.update = body => {
+export const update = body => {
     getParameters(body, async (branch, url) => {
         console.log(`Updating environment for branch - ${branch} - with manifest from ${url}`);                
         
-        var manifest = await manifestLoader.loadManifest(url, branch, process.env.TARGET_DOMAIN);                
-        release.applyRelease(branch, manifest);
+        var manifest = await loadManifest(url, branch, process.env.TARGET_DOMAIN);                
+        applyRelease(branch, manifest);
     });                
 }

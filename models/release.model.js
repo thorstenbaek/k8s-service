@@ -1,8 +1,8 @@
-const k8s = require('../k8s.js');
-const yaml = require('js-yaml');
-const k8s_client = require('@kubernetes/client-node');
+import {getCoreApi, getAppApi, getBatchApi, getNetworkingApi} from "../k8s.js";
+import yaml from "js-yaml";
+import k8s_client from "@kubernetes/client-node";
 
-exports.listRelease = async (namespace) => {
+export const listRelease = async (namespace) => {
     let result = [];
     
     var releases = await k8s.getCoreApi().listNamespacedSecret(namespace);
@@ -14,19 +14,17 @@ exports.listRelease = async (namespace) => {
     return result;
 }
 
-exports.applyRelease = async (namespace, manifest) => {
+export const applyRelease = async (namespace, manifest) => {
     const created = [];
     
  
     const specs = yaml.safeLoadAll(manifest);
     const validSpecs = specs.filter((s) => s && s.kind && s.metadata);
     
-    let core = k8s.getCoreApi();
-    let app = k8s.getAppApi();
-    let batch = k8s.getBatchApi();
-    let networking = k8s.getNetworkingApi();
-
-    let namespaceObject = null;
+    let core = getCoreApi();
+    let app = getAppApi();
+    let batch = getBatchApi();
+    let networking = getNetworkingApi();
 
     if (validSpecs[0].kind === "Namespace") {
         console.log("using namespace from manifest...")

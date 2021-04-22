@@ -1,20 +1,20 @@
-const model = require('../models/environment.model');
+import {createEnvironment as modelCreateEnvironment, deleteEnvironment as modelDeleteEnvironment} from "../models/environment.model.js";
 
-exports.createEnvironment = async (req, res) => {
+export const createEnvironment = async (req, res) => {
     var name = req.params.name;
     
-    const result = await model.createEnvironment(name, false);
+    const result = await modelCreateEnvironment(name, false);
     res.status(result.status).send(result.message);    
 }
 
-exports.createIsolatedEnvironment = async (req, res) => {
+export const createIsolatedEnvironment = async (req, res) => {
     var name = req.params.name;
-    const result = await model.createEnvironment(name, true);
+    const result = await modelCreateEnvironment(name, true);
     res.status(result.status).send(result.message);    
 }
 
-exports.deleteEnvironment = async (req, res) => {
+export const deleteEnvironment = async (req, res) => {
     var name = req.params.name;
-    const result = await model.deleteEnvironment(name);
+    const result = await modelDeleteEnvironment(name);
     res.status(result.status).send(result.message);    
 }   
