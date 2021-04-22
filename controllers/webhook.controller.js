@@ -6,17 +6,37 @@ exports.webhookPosted = async (req, res) => {
     
     if (event === 'create')
     {
-        res.send(await model.create(body));    
+        try {
+            var result = await model.create(body);    
+            res.send(result);    
+        } catch (error) {
+            res.send(error).status(500);
+        }                 
     }
     else if (event === 'delete')
     {
-        res.send(await model.delete(body));    
+        try {
+            var result = await model.delete(body);
+            res.send(result);        
+        } catch (error) {
+            res.send(error).status(500);
+        }
+        
+    }
+    else if (event === 'push')
+    {
+        try {
+            var result = await model.update(body);
+            res.send(result);        
+        } catch (error) {
+            res.send(error).status(500);
+        }        
     }
     else
     {
-        const message = `Ignoring unknown github event - ${event}`;
+        const message = `Unknown github event - ${event}`;
 
         console.log(message);
-        res.send(message)
+        res.send(message).status(500);
     }
 }

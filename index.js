@@ -1,5 +1,5 @@
 const express = require('express');
-var bodyParser = require('body-parser');
+const router = express.Router();
 const namespaceRoutes = require('./routes/namespace.routes');
 const releaseRoutes = require('./routes/release.routes');
 const environmentRoutes = require('./routes/environment.routes');
@@ -7,7 +7,6 @@ const healthRoutes = require('./routes/health.routes');
 const webhookRoutes = require('./routes/webhook.routes');
 const initK8s = require('./k8s.js').initK8s;
 const getCoreApi = require('./k8s.js').getCoreApi;
-const app = express();
 
 var port = 8001;
 if (process.env.IN_CONTAINER)
@@ -15,14 +14,21 @@ if (process.env.IN_CONTAINER)
     port = 80;
 }
 
-app.use(bodyParser.text());
-app.use(bodyParser.json());
+const app = express();
+app.use(express.json());
 
+// app.post("/webhook", (req, res) => {
+//     console.log(req.body) // Call your action on the request here
+//     res.status(200).end() // Responding is important
+//   })
+
+app.use(router);
 app.use('/namespace', namespaceRoutes);
 app.use('/release', releaseRoutes);
 app.use('/environment', environmentRoutes);
 app.use('/health', healthRoutes);
 app.use('/webhook', webhookRoutes);
+
 
 initK8s(err => {
     if (err) {
@@ -30,7 +36,7 @@ initK8s(err => {
     }
 
     app.listen(port, () => {
-    console.log(`Express listening on at port ${port}`)
+        console.log(`🚀 Server running on port ${port}`)
     });
 });
 

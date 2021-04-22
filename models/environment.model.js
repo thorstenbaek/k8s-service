@@ -1,30 +1,6 @@
-const fetch = require('node-fetch');
 const namespace = require('./namespace.model');
 const release = require('./release.model');
-
-getManifest = async (name, domain, isolated) => {        
-    
-    let url = "";
-
-    if (isolated)
-    {
-        url = process.env.IsolatedManifestTemplateURL;    
-    }
-    else
-    {
-        url = process.env.ManifestTemplateURL;    
-    }
-
-    console.log("Loading manifest from:" + url);
-    
-    const response = await fetch(url);
-    var manifest = await response.text();
-
-    manifest = manifest.replace(/RELEASE-NAME/g, name);
-    manifest = manifest.replace(/DOMAIN/g, domain);     
-    return manifest;
-}
-
+const manifestLoader = require('./manifestLoader');
 
 exports.createEnvironment = async (name, isolated) => {
     try {
@@ -32,10 +8,20 @@ exports.createEnvironment = async (name, isolated) => {
         
         console.log(`Creating environment named '${name}' at domain '${targetDomain}'`);
 
-        var manifest = await getManifest(name, targetDomain, isolated);
+        let url = "";
+        if (isolated)
+        {
+            url = process.env.IsolatedManifestTemplateURL;    
+        }
+        else
+        {
+            url = process.env.ManifestTemplateURL;    
+        }
+
+        var manifest = await manifestLoader.loadManifest(url, name, targetDomain);
         
         await namespace.createNamespace(name);
-        await release.createRelease(name, manifest);
+        await release.applyRelease(name, manifest);
     
         const message = `Environment '${name}' was successfully created at '${targetDomain}'`;
         console.log(message);    

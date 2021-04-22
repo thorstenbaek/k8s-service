@@ -37,7 +37,7 @@ const masterBranchBody = `
 describe('Webhook Model Tests', () => {    
     it('create', async () => { 
         var releaseMock = sinon.mock(release);
-            releaseMock.expects('createRelease')
+            releaseMock.expects('applyRelease')
                 .once()
                 .withArgs('test', '')
                 .resolves(Promise.resolve('release'));        

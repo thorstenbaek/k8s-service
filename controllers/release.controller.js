@@ -5,9 +5,9 @@ exports.listRelease = async (req, res) => {
     res.send(await model.listRelease(namespace));    
 }
 
-exports.createRelease = async (req, res) => {
+exports.applyRelease = async (req, res) => {
     var namespace = req.params.namespace;
-    res.send(await model.createRelease(namespace, req.body));    
+    res.send(await model.applyRelease(namespace, req.body));    
 }
 
 exports.getRelease = async (req, res) => {

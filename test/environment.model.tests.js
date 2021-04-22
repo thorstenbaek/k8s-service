@@ -106,7 +106,7 @@ describe('Environment Model Tests', () => {
                 .resolves(Promise.resolve('namespace'));
             
             var releaseMock = sinon.mock(release);
-            releaseMock.expects('createRelease')
+            releaseMock.expects('applyRelease')
                 .once()
                 .withArgs('test', manifest)
                 .resolves(Promise.resolve('release'));
