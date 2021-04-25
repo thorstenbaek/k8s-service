@@ -1,6 +1,7 @@
 import NamespaceModel from "./namespaceModel.js";
 import ReleaseModel from "./releaseModel.js";
 import ManifestLoader from "./manifestLoader.js";
+import k8s from "../k8s.js";
 
 export default class EnvironmentModel {
     constructor() {
@@ -29,7 +30,8 @@ export default class EnvironmentModel {
             
             await this.namespace.createNamespace(name);
             
-            await this.release.applyRelease(name, manifest);
+            //await this.release.applyRelease(name, manifest);
+            await k8s.apply(name, manifest);
         
             const message = `Environment '${name}' was successfully created at '${targetDomain}'`;
             console.log(message);    

@@ -13,7 +13,7 @@ export default class NamespaceModel {
     }
 
     async createNamespace(name) {
-        console.log('Creating namespace ' + name);
+        console.log(`Creating namespace: ${name}`);
 
         var namespace = {
             metadata: {
@@ -24,8 +24,7 @@ export default class NamespaceModel {
         try {
             var createdNamespace = await k8s.coreApi.createNamespace(namespace);
             
-            console.log('Created namespace');
-            console.log(createdNamespace);          
+            console.log(`Created namespace: ${createdNamespace.body.metadata.name}`);
             return {body: createdNamespace};
             
         } catch (error) {

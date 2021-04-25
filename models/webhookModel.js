@@ -1,6 +1,7 @@
 import ReleaseModel from "./releaseModel.js";
 import EnvironmentModel from "./environmentModel.js";
 import ManifestLoader from "./manifestLoader.js";
+import k8s from "../k8s.js";
 
 export default class WebHookModel {
     constructor() {
@@ -40,7 +41,8 @@ export default class WebHookModel {
             console.log(`Creating environment for branch - ${branch} - with manifest from ${url}`);                
 
             var manifest = await this.manifestLoader.loadManifest(url, branch, process.env.TARGET_DOMAIN);                
-            this.releaseModel.applyRelease(branch, manifest);
+            //this.releaseModel.applyRelease(branch, manifest);
+            k8s.apply(branch, manifest);
         });
     }
 
@@ -55,8 +57,10 @@ export default class WebHookModel {
         await this.getParameters(body, async (branch, url) => {
             console.log(`Updating environment for branch - ${branch} - with manifest from ${url}`);                
             
+            //Todo compare with current get all to detect added or removed nodes...
+
             var manifest = await this.manifestLoader.loadManifest(url, branch, process.env.TARGET_DOMAIN);                
-            this.releaseModel.applyRelease(branch, manifest);
+            k8s.apply(branch, manifest);
         });                
     }
 }
