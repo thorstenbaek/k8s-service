@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 
 export default class ManifestLoader {
 
-    async loadManifest(url, name, domain) {                
+    async loadManifest(url, name, domain, folder) {                
         console.log("Loading manifest from:" + url);
         
         const response = await fetch(url);
@@ -11,7 +11,8 @@ export default class ManifestLoader {
         
         console.log("Replacing variables");        
         manifest = manifest.replace(/RELEASE-NAME/g, name);
-        manifest = manifest.replace(/DOMAIN/g, domain);     
+        manifest = manifest.replace(/DOMAIN/g, domain);    
+        manifest = manifest.replace(/RELEASE-FOLDER/g, folder); 
         console.log("Variables replaced");        
 
         return manifest;
