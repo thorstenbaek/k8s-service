@@ -1,0 +1,76 @@
+{
+    "ref": "refs/heads/feature/tst-add-manifest-and-config",
+    "before": "1d16834900ebc21d61919ef3a859124906d2144b",
+    "after": "ce5da98eb30e607790a6f3a91c9ee267a47c8811",
+    "repository": {
+        "id": 326921348,
+        "node_id": "MDEwOlJlcG9zaXRvcnkzMjY5MjEzNDg=",
+        "name": "sandbox-environments",
+        "full_name": "thorstenbaek/sandbox-environments",
+        "stargazers": 0,
+        "master_branch": "master"
+    },
+    "pusher": { 
+        "name": "thorstenbaek", 
+        "email": "thorstenbaek@gmail.com"
+    },
+    "sender": {
+        "login": "thorstenbaek",
+        "id": 447337,
+        "node_id": "MDQ6VXNlcjQ0NzMzNw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/447337?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/thorstenbaek",
+        "html_url": "https://github.com/thorstenbaek",
+        "followers_url": "https://api.github.com/users/thorstenbaek/followers",
+        "following_url": "https://api.github.com/users/thorstenbaek/following{/other_user}",
+        "gists_url": "https://api.github.com/users/thorstenbaek/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/thorstenbaek/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/thorstenbaek/subscriptions",
+        "organizations_url": "https://api.github.com/users/thorstenbaek/orgs",
+        "repos_url": "https://api.github.com/users/thorstenbaek/repos",
+        "events_url": "https://api.github.com/users/thorstenbaek/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/thorstenbaek/received_events",
+        "type": "User",
+        "site_admin": false
+    },
+    "created": false,
+    "deleted": false,
+    "forced": false,
+    "base_ref": null,
+    "compare": "https://github.com/thorstenbaek/sandbox-environments/compare/1d16834900eb...ce5da98eb30e",
+    "commits": [
+        {
+            "id": "ce5da98eb30e607790a6f3a91c9ee267a47c8811",
+            "tree_id": "1196b9d7655a8892f6d73e2d66093d586afcc464",
+            "distinct": true,
+            "message": "Trigging change",
+            "timestamp": "2021-04-16T18:20:01+02:00",
+            "url": "https://github.com/thorstenbaek/sandbox-environments/commit/ce5da98eb30e607790a6f3a91c9ee267a47c8811",
+            "author": "[Object]",
+            "committer": "[Object]",
+            "added": [],
+            "removed": [],
+            "modified": []
+        }
+    ],
+    "head_commit": {
+        "id": "ce5da98eb30e607790a6f3a91c9ee267a47c8811",
+        "tree_id": "1196b9d7655a8892f6d73e2d66093d586afcc464",
+        "distinct": true,
+        "message": "Trigging change",
+        "timestamp": "2021-04-16T18:20:01+02:00",
+        "url": "https://github.com/thorstenbaek/sandbox-environments/commit/ce5da98eb30e607790a6f3a91c9ee267a47c8811",
+        "author": { 
+            "name": "Thor Stenbæk", 
+            "email": "tst@dips.no"
+        },
+        "committer": { 
+            "name": "Thor Stenbæk", 
+            "email": "tst@dips.no"
+        },
+        "added": [],
+        "removed": [],
+        "modified": ["README.md"]
+    }
+}
