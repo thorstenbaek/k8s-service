@@ -51,7 +51,7 @@ spec:
         - name: k8s-service
           securityContext:
             {}
-          image: "thorstenbaek/k8s-service:v1.0.0.10"
+          image: "thorstenbaek/k8s-service:v1.0.1.1"
           imagePullPolicy: Always
           env:
             - name: TARGET_DOMAIN
