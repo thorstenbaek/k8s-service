@@ -28,7 +28,8 @@ class KubernetesClient {
             "Job": async (name, namespace) => {return await this.batchApi.readNamespacedJob(name, namespace)},
             "Service": async (name, namespace) => {return await this.coreApi.readNamespacedService(name, namespace)},
             "Ingress": async (name, namespace) => {return await this.networkingApi.readNamespacedIngress(name, namespace)},            
-            "Pod": async (name, namespace) => {return await this.coreApi.readNamespacedPod(name, namespace)}
+            "Pod": async (name, namespace) => {return await this.coreApi.readNamespacedPod(name, namespace)},
+            "ConfigMap" : async(name, namespace) => {return await this.coreApi.readNamespacedConfigMap(name, namespace)}
         }
 
         this.patchOperations = {
@@ -37,7 +38,8 @@ class KubernetesClient {
             "Job": async (namespace, spec, options) => {return await this.batchApi.patchNamespacedJob(spec.metadata.name, namespace, spec, undefined, undefined, "k8s-service", true, options)},
             "Service": async (namespace, spec, options) => {return await this.coreApi.patchNamespacedService(spec.metadata.name, namespace, spec, undefined, undefined, "k8s-service", true, options)},
             "Ingress": async (namespace, spec, options) => {return await this.networkingApi.patchNamespacedIngress(spec.metadata.name, namespace, spec, undefined, undefined, "k8s-service", true, options)},
-            "Pod": async (namespace, spec, options) => {return await this.coreApi.patchNamespacedPod(spec.metadata.name, namespace, spec, undefined, undefined, "k8s-service", true, options)}
+            "Pod": async (namespace, spec, options) => {return await this.coreApi.patchNamespacedPod(spec.metadata.name, namespace, spec, undefined, undefined, "k8s-service", true, options)},
+            "ConfigMap" : async(namespace, spec, options) => {return await this.coreApi.patchNamespacedConfigMap(spec.metadata.name, namespace, spec, undefined, undefined, "k8s-serviec", true, options)}
         }
 
         this.createOperations = {
@@ -46,7 +48,8 @@ class KubernetesClient {
             "Job": async (namespace, spec) => {return await this.batchApi.createNamespacedJob(namespace, spec)},
             "Service": async (namespace, spec) => {return await this.coreApi.createNamespacedService(namespace, spec)},
             "Ingress": async (namespace, spec) => {return await this.networkingApi.createNamespacedIngress(namespace, spec)},
-            "Pod": async (namespace, spec) => {return await this.coreApi.createNamespacedPod(namespace, spec)}
+            "Pod": async (namespace, spec) => {return await this.coreApi.createNamespacedPod(namespace, spec)},
+            "ConfigMap" : async(namespace, spec) => {return await this.coreApi.createNamespacedConfigMap(namespace, spec)}
         }
     }
 
@@ -106,11 +109,11 @@ class KubernetesClient {
                 console.log(`Created ${spec.kind}: ${createdObject.body.metadata.name}`);                
                 return createdObject != null;
             } catch(error) {
-                console.error(`Create ${spec.kind} failed`);
+                console.error(`Create ${spec.kind} failed due to ${error}`);
             }
         }
         else {
-            throw new Error("Missing create operation");            
+            throw new Error(`Missing create operation ${spec.kind}`);            
         }
     }
 

@@ -1,6 +1,5 @@
 import sinon from "sinon";
-import {create as modelCreate} from "../models/webhook.model.js";
-import {applyRelease} from "../models/release.model.js";
+import WebhookModel from "../models/webhookModel.js";
 
 const nonMasterBranchBody = `
 {
@@ -40,6 +39,8 @@ describe('Webhook Model Tests', () => {
                 .withArgs('test', '')
                 .resolves(Promise.resolve('release'));        
 
-        await modelCreate(postedBody);
+        var webHookModel = new WebHookModel();
+
+        await webHookModel.create(postedBody);
     });    
 });

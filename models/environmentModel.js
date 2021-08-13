@@ -6,7 +6,6 @@ import k8s from "../k8s.js";
 export default class EnvironmentModel {
     constructor() {
         this.namespace = new NamespaceModel();
-        this.release = new ReleaseModel();
         this.manifestLoader = new ManifestLoader();
     }
 
@@ -29,8 +28,6 @@ export default class EnvironmentModel {
             var manifest = await this.manifestLoader.loadManifest(url, name, targetDomain);
             
             await this.namespace.createNamespace(name);
-            
-            //await this.release.applyRelease(name, manifest);
             await k8s.apply(name, manifest);
         
             const message = `Environment '${name}' was successfully created at '${targetDomain}'`;
