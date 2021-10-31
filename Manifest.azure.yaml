@@ -1,4 +1,37 @@
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: k8s-serviceaccount
+  namespace: kube-system
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: k8s-serviceaccount
+  namespace: kube-system
+rules:
+- apiGroups:
+  - "*" 
+  resources:
+  - "*"  
+  verbs:
+  - "*"  
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: k8s-serviceaccount
+roleRef:
+  kind: ClusterRole
+  name: k8s-serviceaccount
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: k8s-serviceaccount
+  namespace: kube-system
+---
 # Source: Experimental/charts/k8s-service/templates/service.yaml
 apiVersion: v1
 kind: Service
@@ -44,18 +77,18 @@ spec:
         app.kubernetes.io/name: k8s-service
         app.kubernetes.io/instance: experimental
     spec:
-      serviceAccountName: default
+      serviceAccountName: k8s-serviceaccount
       securityContext:
         {}
       containers:
         - name: k8s-service
           securityContext:
             {}
-          image: "thorstenbaek/k8s-service:v1.0.1.1"
+          image: "thorstenbaek/k8s-service:v1.0.1.2"
           imagePullPolicy: Always
           env:
             - name: TARGET_DOMAIN
-              value: api.dips.no
+              value: sandbox.dips.no
             - name: IsolatedManifestTemplateURL
               value: https://raw.githubusercontent.com/thorstenbaek/k8sSandBox/master/helm/SandBox/sandboxWithDb.release.yaml
             - name: ManifestTemplateURL
@@ -93,34 +126,13 @@ metadata:
 spec:
   tls:
     - hosts:
-        - "k8s-service.api.dips.no"
+        - "k8s-service.sandbox.dips.no"
       secretName: k8s-service-experimental-tls
   rules:
-    - host: "k8s-service.api.dips.no"
+    - host: "k8s-service.sandbox.dips.no"
       http:
         paths:
           - path: /
             backend:
               serviceName: experimental-k8s-service
               servicePort: 80
----
-# Source: Experimental/charts/k8s-service/templates/tests/test-connection.yaml
-# apiVersion: v1
-# kind: Pod
-# metadata:
-#   name: "experimental-k8s-service-test-connection"
-#   labels:
-#     helm.sh/chart: k8s-service-0.1.0
-#     app.kubernetes.io/name: k8s-service
-#     app.kubernetes.io/instance: experimental
-#     app.kubernetes.io/version: "1.16.0"
-#     app.kubernetes.io/managed-by: Helm
-#   annotations:
-#     "helm.sh/hook": test
-# spec:
-#   containers:
-#     - name: wget
-#       image: busybox
-#       command: ['wget']
-#       args: ['experimental-k8s-service:80']
-#   restartPolicy: Never
