@@ -13,7 +13,7 @@ class KubernetesClient {
             this.coreApi = kubeConfig.makeApiClient(kubernetes.CoreV1Api);
             this.appApi = kubeConfig.makeApiClient(kubernetes.AppsV1Api);
             this.batchApi = kubeConfig.makeApiClient(kubernetes.BatchV1Api);
-            this.networkingApi = kubeConfig.makeApiClient(kubernetes.NetworkingV1beta1Api);
+            this.networkingApi = kubeConfig.makeApiClient(kubernetes.NetworkingV1Api);
             
             console.log('K8S Api connected to: ', this.coreApi._basePath);        
 
