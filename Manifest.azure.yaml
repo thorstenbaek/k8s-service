@@ -6,7 +6,7 @@ metadata:
   namespace: kube-system
 
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: k8s-serviceaccount
@@ -20,7 +20,7 @@ rules:
   - "*"  
 ---
 kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: k8s-serviceaccount
 roleRef:
@@ -84,7 +84,7 @@ spec:
         - name: k8s-service
           securityContext:
             {}
-          image: "thorstenbaek/k8s-service:v1.0.1.2"
+          image: "thorstenbaek/k8s-service:v1.0.1.3"
           imagePullPolicy: Always
           env:
             - name: TARGET_DOMAIN
@@ -109,7 +109,7 @@ spec:
             {}
 ---
 # Source: Experimental/charts/k8s-service/templates/ingress.yaml
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: experimental-k8s-service  
@@ -133,6 +133,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: experimental-k8s-service
-              servicePort: 80
+              service:
+                name: experimental-k8s-service
+                port: 
+                  number: 80
