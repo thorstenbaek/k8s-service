@@ -2,14 +2,20 @@ import k8s from "../k8s.js";
 
 export default class NamespaceModel {
     async listNamespace() {
-        let result = [];
-        var namespaces = await k8s.coreApi.listNamespace();
+        try {
+            let result = [];
+            var namespaces = await k8s.coreApi.listNamespace();
 
-        namespaces.body.items.forEach(namespace => {
-            result.push(namespace.metadata.uid + " " + namespace.metadata.name);    
-        }); 
-        
-        return result;
+            namespaces.body.items.forEach(namespace => {
+                result.push(namespace.metadata.uid + " " + namespace.metadata.name);    
+            }); 
+            
+            return result;
+        }
+        catch(error) {
+            return error;
+        }
+
     }
 
     async createNamespace(name) {
@@ -37,7 +43,6 @@ export default class NamespaceModel {
         try {
             var namespace = await k8s.coreApi.readNamespace(name);
             return {body: namespace};        
-            
         } catch (error) {
             console.error(error);
             return {error: error};       
